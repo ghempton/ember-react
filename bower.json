@@ -1,0 +1,7 @@
+{
+  "name": "ember-react",
+  "private": true,
+  "devDependencies": {
+    "loader": "stefanpenner/loader.js#1.0.0"
+  }
+}

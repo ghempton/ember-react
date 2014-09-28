@@ -1,0 +1,38 @@
+#!/bin/bash
+
+npm run-script build
+
+REPO="git@github.com:ghempton/ember-react-shim.git"
+STAGING_DIR="staging"
+REV=`git rev-parse HEAD`
+
+mkdir -p $STAGING_DIR
+cd $STAGING_DIR
+
+if [ ! -d ".git" ]; then
+  git init .
+  git remote add origin $REPO
+fi
+
+git fetch origin
+git reset --hard origin/master
+git rm -rf *
+
+cp ../dist/* .
+
+VERSION=`cat bower.json | jsawk 'return this.version'`
+
+echo "Releasing version ${VERSION}"
+
+git add --all .
+git commit -m "Version ${VERSION}: https://github.com/ghempton/ember-react/commits/${REV}"
+
+git push origin master
+
+if [[ $VERSION =~ "+" ]]; then
+  echo "Skipping github release for $VERSION"
+else
+  echo "Creating github release for $VERSION"
+  git tag -a $VERSION -m "Publish $VERSION"
+  git push origin $VERSION
+fi
