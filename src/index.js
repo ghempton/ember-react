@@ -1,12 +1,14 @@
-import ReactComponent from './components/react';
-import ReactHelper from './helpers/react';
+import EmberLink from './ember-link';
+import ReactComponent from './component';
+import ReactHelper from './helper';
 import initializer from './initializer';
 import './ext/route';
 
 var EmberReact = {
+  EmberLink: EmberLink,
   ReactComponent: ReactComponent,
   ReactHelper: ReactHelper,
-  initializer: initializer,
+  initializer: initializer
 };
 
 export default EmberReact;

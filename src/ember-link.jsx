@@ -7,7 +7,10 @@ export default React.createClass({
   },
   propTypes: {
     to: React.PropTypes.string.isRequired,
-    context: React.PropTypes.object,
+    context: React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.object
+    ]),
     query: React.PropTypes.object
   },
   getRouterArgs: function() {

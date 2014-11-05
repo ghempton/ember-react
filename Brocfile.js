@@ -1,5 +1,6 @@
 var fs = require('fs');
-var traceur = require('broccoli-traceur');
+var transpile = require('broccoli-es6-module-transpiler');
+var AMDFormatter = require('es6-module-transpiler-amd-formatter');
 var pickFiles = require('broccoli-static-compiler');
 var mergeTrees = require('broccoli-merge-trees');
 var writeFile = require('broccoli-file-creator');
@@ -10,24 +11,28 @@ var removeFile = require('broccoli-file-remover');
 var defeatureify = require('broccoli-defeatureify');
 var replace = require('broccoli-replace');
 var react = require('broccoli-react');
+var path = require('path');
 
 var calculateVersion = require('./lib/calculate-version');
 
-var licenseJs = fs.readFileSync('./generators/license.js').toString();
+var licenseJs = fs.readFileSync(path.join(__dirname, './generators/license.js')).toString();
+
+var src = path.join(__dirname, 'src');
+var vendor = path.join(__dirname, 'bower_components');
 
 var devAmd = (function() {
-  var tree = pickFiles('src', {
+  var tree = pickFiles(src, {
     srcDir: '/',
     destDir: 'ember-react'
   });
-  tree = moveFile(tree, {
-    srcFile: 'ember-react/index.js',
-    destFile: '/ember-react.js'
-  });
+  // TODO: with new transpiler, how to create "main" import
+  // tree = moveFile(tree, {
+  //   srcFile: 'ember-react/index.js',
+  //   destFile: '/ember-react.js'
+  // });
   tree = react(tree);
-  var transpiled = traceur(tree, {
-    moduleName: true,
-    modules: 'amd'
+  var transpiled = transpile(tree, {
+    formatter: new AMDFormatter()
   });
   return concat(transpiled, {
     inputFiles: ['**/*.js'],
@@ -54,12 +59,10 @@ var prodAmd = (function() {
 
 })();
 
-var vendor = 'bower_components';
-
 function concatStandalone(tree, inputFile, outputFile) {
   var iifeStart = writeFile('iife-start', '(function() {');
   var iifeStop  = writeFile('iife-stop', '})();');
-  var bootstrap = writeFile('bootstrap', 'this.EmberReact = requireModule("ember-react")["default"];\n');
+  var bootstrap = writeFile('bootstrap', 'this.EmberReact = requireModule("ember-react/index")["default"];\n');
 
   var trees = [vendor, iifeStart, iifeStop, bootstrap, tree];
 

@@ -1,3 +1,5 @@
+import ReactComponent from '../component';
+
 
 Ember.Route.reopen({
   

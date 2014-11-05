@@ -1,5 +1,5 @@
-import ReactHelper from '../helpers/react';
-import ReactComponent from '../components/react';
+import ReactHelper from './helper';
+import ReactComponent from './component';
 
 export default {
   name: "ember-react",

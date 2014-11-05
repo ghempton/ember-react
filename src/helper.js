@@ -1,4 +1,4 @@
-import ReactComponent from '../components/react';
+import ReactComponent from './component';
 
 var EmberHandlebars = Ember.Handlebars;
 
@@ -8,4 +8,4 @@ var helper = function(name, options) {
   return EmberHandlebars.helpers.view.call(this, ReactComponent, options);
 };
 
-EmberHandlebars.registerHelper('react', helper);
+export default helper;

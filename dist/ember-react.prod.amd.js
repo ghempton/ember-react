@@ -5,180 +5,115 @@
  *            See https://raw.github.com/ghempton/ember-react/master/LICENSE
  * @version   0.0.0
  */
-define("ember-react", ['./components/react', './helpers/react', './initializer', './ext/route'], function($__0,$__2,$__4,$__6) {
+define("ember-react/component", ["exports"], function(__exports__) {
   "use strict";
-  var __moduleName = "ember-react";
-  if (!$__0 || !$__0.__esModule)
-    $__0 = {default: $__0};
-  if (!$__2 || !$__2.__esModule)
-    $__2 = {default: $__2};
-  if (!$__4 || !$__4.__esModule)
-    $__4 = {default: $__4};
-  if (!$__6 || !$__6.__esModule)
-    $__6 = {default: $__6};
-  var ReactComponent = $__0.default;
-  var ReactHelper = $__2.default;
-  var initializer = $__4.default;
-  $__6;
-  var EmberReact = {
-    ReactComponent: ReactComponent,
-    ReactHelper: ReactHelper,
-    initializer: initializer
-  };
-  var $__default = EmberReact;
-  return {
-    get default() {
-      return $__default;
-    },
-    __esModule: true
-  };
-});
 
-define("ember-react/components/react", [], function() {
-  "use strict";
-  var __moduleName = "ember-react/components/react";
+  function __es6_export__(name, value) {
+    __exports__[name] = value;
+  }
+
   var get = Ember.get;
+  /**
+    Renders a React component with the passed in options hash
+    set as props.
+    
+    Usage:
+    
+    ```handlebars
+      {{react 'my-component' value=value onChange=valueChanged}}
+    ```
+  */
   var ReactComponent = Ember.Component.extend({
+    
     name: null,
-    modulePrefix: 'outreach/react/',
     _props: null,
     _reactComponent: null,
+    
     reactClass: Ember.computed(function() {
-      var moduleName = get(this, 'modulePrefix') + get(this, 'name');
-      return requireModule(moduleName)['default'];
+      return this.container.lookupFactory('react:' + name);
     }).property('name'),
+    
+    buildReactContext: function() {
+      var container = get(this, 'container'),
+          controller = get(this, 'controller');
+      
+      return {
+        container: container,
+        controller: controller
+      };
+    },
+    
     renderReact: function() {
       var el = get(this, 'element'),
-          reactClass = get(this, 'reactClass');
-      var container = get(this, 'container');
+          reactClass = get(this, 'reactClass'),
+          controller = get(this, 'controller'),
+          context = this.buildReactContext();
+      
       var props = this._props;
-      props.model = props.model || this.controller.model;
-      var view = this;
-      while (!view.controller || !view.controller.session) {
-        view = view._parentView;
-      }
-      var session = view.controller.session;
-      var descriptor = React.withContext({
-        container: container,
-        session: session,
-        controller: this.controller
-      }, function() {
+      props.model = props.model || get(controller, 'model');
+      
+      var descriptor = React.withContext(context, function() {
         return reactClass(this._props);
       }.bind(this));
+      
       this._reactComponent = React.renderComponent(descriptor, el);
     },
+    
     didInsertElement: function() {
       this.renderReact();
     },
+    
     willDestroyElement: function() {
       var el = get(this, 'element');
       React.unmountComponentAtNode(el);
     },
+    
     unknownProperty: function(key) {
       return this._props[key];
     },
+    
     setUnknownProperty: function(key, value) {
       var reactComponent = this._reactComponent;
-      if (!this._props) {
+      if(!this._props) {
         this._props = {};
       }
       this._props[key] = value;
-      if (reactComponent) {
+      if(reactComponent) {
         var props = {};
         props[key] = value;
         reactComponent.setProps(props);
       }
       return value;
     }
+    
   });
-  var $__default = ReactComponent;
-  return {
-    get default() {
-      return $__default;
-    },
-    __esModule: true
-  };
+
+  __es6_export__("default", ReactComponent);
 });
 
-define("ember-react/ext/route", [], function() {
+//# sourceMappingURL=component.js.map
+define("ember-react/ember-link", ["exports"], function(__exports__) {
   "use strict";
-  var __moduleName = "ember-react/ext/route";
-  Ember.Route.reopen({render: function(name, options) {
-      if (typeof name === 'object' && !options) {
-        options = name;
-        name = this.routeName;
-      }
-      if (options && options.react) {
-        var container = this.container,
-            containerName = 'view:' + name;
-        name = name || this.routeName;
-        if (!container.has(containerName)) {
-          var View = ReactComponent.extend({
-            reactClass: options.react,
-            rootPath: this.router.generate(this.routeName)
-          });
-          this.container.register(containerName, View);
-        }
-      }
-      this._super.apply(this, arguments);
-    }});
-  return {};
-});
 
-define("ember-react/helpers/react", ['../components/react'], function($__0) {
-  "use strict";
-  var __moduleName = "ember-react/helpers/react";
-  if (!$__0 || !$__0.__esModule)
-    $__0 = {default: $__0};
-  var ReactComponent = $__0.default;
-  var EmberHandlebars = Ember.Handlebars;
-  var helper = function(name, options) {
-    var hash = options.hash;
-    hash.name = name;
-    return EmberHandlebars.helpers.view.call(this, ReactComponent, options);
-  };
-  EmberHandlebars.registerHelper('react', helper);
-  return {};
-});
+  function __es6_export__(name, value) {
+    __exports__[name] = value;
+  }
 
-define("ember-react/initializer", ['../helpers/react', '../components/react'], function($__0,$__2) {
-  "use strict";
-  var __moduleName = "ember-react/initializer";
-  if (!$__0 || !$__0.__esModule)
-    $__0 = {default: $__0};
-  if (!$__2 || !$__2.__esModule)
-    $__2 = {default: $__2};
-  var ReactHelper = $__0.default;
-  var ReactComponent = $__2.default;
-  var $__default = {
-    name: "ember-react",
-    initialize: function(container, application) {
-      container.register('helper:react', ReactHelper);
-      container.register('component:react', ReactComponent);
-    }
-  };
-  return {
-    get default() {
-      return $__default;
-    },
-    __esModule: true
-  };
-});
-
-define("ember-react/react/ember-link", [], function() {
-  "use strict";
-  var __moduleName = "ember-react/react/ember-link";
-  var $__default = React.createClass({
+  __es6_export__("default", React.createClass({
     displayName: 'EmberLink',
-    contextTypes: {container: React.PropTypes.object},
+    contextTypes: {
+      container: React.PropTypes.object
+    },
     propTypes: {
       to: React.PropTypes.string.isRequired,
-      context: React.PropTypes.object,
+      context: React.PropTypes.oneOfType([
+        React.PropTypes.string,
+        React.PropTypes.object
+      ]),
       query: React.PropTypes.object
     },
     getRouterArgs: function() {
-      var args,
-          context;
+      var args, context;
       args = [this.props.to];
       context = this.props.context || this.props.params;
       if (context) {
@@ -189,7 +124,9 @@ define("ember-react/react/ember-link", [], function() {
         }
       }
       if (this.props.query) {
-        args.push({query: this.props.query});
+        args.push({
+          query: this.props.query
+        });
       }
       return args;
     },
@@ -207,16 +144,134 @@ define("ember-react/react/ember-link", [], function() {
       }
     },
     render: function() {
-      return React.DOM.a({
-        href: this.getHref(),
-        onClick: this.handleClick
-      }, this.props.children);
+      return React.DOM.a({href: this.getHref(), onClick: this.handleClick}, this.props.children) 
     }
-  });
-  return {
-    get default() {
-      return $__default;
-    },
-    __esModule: true
-  };
+  }));
 });
+
+//# sourceMappingURL=ember-link.js.map
+define("ember-react/ext/route", ["exports"], function(__exports__) {
+  "use strict";
+
+  function __es6_export__(name, value) {
+    __exports__[name] = value;
+  }
+
+  Ember.Route.reopen({
+    
+    render: function(name, options) {
+      if (typeof name === 'object' && !options) {
+        options = name;
+        name = this.routeName;
+      }
+      if(options && options.react) {
+        var container = this.container,
+            containerName = 'view:' + name;
+            
+        name = name || this.routeName;
+        
+        if(!container.has(containerName)) {
+          var View = ReactComponent.extend({
+            reactClass: options.react,
+            rootPath: this.router.generate(this.routeName)
+          });
+          this.container.register(containerName, View);
+        }
+      }
+      this._super.apply(this, arguments);
+    }
+    
+  });
+});
+
+//# sourceMappingURL=route.js.map
+define(
+  "ember-react/helper",
+  ["./component", "exports"],
+  function(ember$react$component$$, __exports__) {
+    "use strict";
+
+    function __es6_export__(name, value) {
+      __exports__[name] = value;
+    }
+
+    var ReactComponent;
+    ReactComponent = ember$react$component$$["default"];
+
+    var EmberHandlebars = Ember.Handlebars;
+
+    var helper = function(name, options) {
+      var hash = options.hash;
+      hash.name = name;
+      return EmberHandlebars.helpers.view.call(this, ReactComponent, options);
+    };
+
+    __es6_export__("default", helper);
+  }
+);
+
+//# sourceMappingURL=helper.js.map
+define(
+  "ember-react/index",
+  ["./ember-link", "./component", "./helper", "./initializer", "./ext/route", "exports"],
+  function(
+    ember$react$ember$link$$,
+    ember$react$component$$,
+    ember$react$helper$$,
+    ember$react$initializer$$,
+    ember$react$ext$route$$,
+    __exports__) {
+    "use strict";
+
+    function __es6_export__(name, value) {
+      __exports__[name] = value;
+    }
+
+    var EmberLink;
+    EmberLink = ember$react$ember$link$$["default"];
+    var ReactComponent;
+    ReactComponent = ember$react$component$$["default"];
+    var ReactHelper;
+    ReactHelper = ember$react$helper$$["default"];
+    var initializer;
+    initializer = ember$react$initializer$$["default"];
+
+    var EmberReact = {
+      EmberLink: EmberLink,
+      ReactComponent: ReactComponent,
+      ReactHelper: ReactHelper,
+      initializer: initializer
+    };
+
+    __es6_export__("default", EmberReact);
+  }
+);
+
+//# sourceMappingURL=index.js.map
+define(
+  "ember-react/initializer",
+  ["./helper", "./component", "exports"],
+  function(ember$react$helper$$, ember$react$component$$, __exports__) {
+    "use strict";
+
+    function __es6_export__(name, value) {
+      __exports__[name] = value;
+    }
+
+    var ReactHelper;
+    ReactHelper = ember$react$helper$$["default"];
+    var ReactComponent;
+    ReactComponent = ember$react$component$$["default"];
+
+    __es6_export__("default", {
+      name: "ember-react",
+      
+      initialize: function(container, application) {
+        container.register('helper:react', ReactHelper);
+        container.register('component:react', ReactComponent);
+      }
+    });
+  }
+);
+
+//# sourceMappingURL=initializer.js.map

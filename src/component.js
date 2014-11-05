@@ -12,34 +12,33 @@ var get = Ember.get;
 var ReactComponent = Ember.Component.extend({
   
   name: null,
-  modulePrefix: 'outreach/react/',
   _props: null,
   _reactComponent: null,
   
   reactClass: Ember.computed(function() {
-    var moduleName = get(this, 'modulePrefix') + get(this, 'name');
-    return requireModule(moduleName)['default'];
+    return this.container.lookupFactory('react:' + name);
   }).property('name'),
+  
+  buildReactContext: function() {
+    var container = get(this, 'container'),
+        controller = get(this, 'controller');
+    
+    return {
+      container: container,
+      controller: controller
+    };
+  },
   
   renderReact: function() {
     var el = get(this, 'element'),
-        reactClass = get(this, 'reactClass');
-        
-    var container = get(this, 'container');
+        reactClass = get(this, 'reactClass'),
+        controller = get(this, 'controller'),
+        context = this.buildReactContext();
     
     var props = this._props;
+    props.model = props.model || get(controller, 'model');
     
-    props.model = props.model || this.controller.model;
-    
-    // need to pull the session from the controller since we could potentially
-    // be dealing with a child session (all views get the global session injected)
-    var view = this;
-    while(!view.controller || !view.controller.session) {
-      view = view._parentView;
-    }
-    var session = view.controller.session;
-    
-    var descriptor = React.withContext({container: container, session: session, controller: this.controller}, function() {
+    var descriptor = React.withContext(context, function() {
       return reactClass(this._props);
     }.bind(this));
     
