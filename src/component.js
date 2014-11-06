@@ -16,7 +16,10 @@ var ReactComponent = Ember.Component.extend({
   _reactComponent: null,
   
   reactClass: Ember.computed(function() {
-    return this.container.lookupFactory('react:' + name);
+    var container = get(this, 'container'),
+        name = get(this, 'name');
+        
+    return container.lookupFactory('react:' + name);
   }).property('name'),
   
   buildReactContext: function() {

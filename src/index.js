@@ -11,4 +11,6 @@ var EmberReact = {
   initializer: initializer
 };
 
+Ember.Application.initializer(initializer);
+
 export default EmberReact;
