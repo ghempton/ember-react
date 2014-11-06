@@ -1,5 +1,7 @@
 /* global Prism */
 
+import Ember from 'ember';
+
 export default Ember.Component.extend({
   
   language: 'markup',
@@ -11,8 +13,8 @@ export default Ember.Component.extend({
   
   didInsertElement: function() {
     this._super();
-    var el = $('code')[0];
-    Prism.highlightElement(this.get('element'));
+    var el = this.$('code')[0];
+    Prism.highlightElement(el);
   }
   
 });
