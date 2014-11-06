@@ -1,6 +1,6 @@
 {
   "name": "ember-react",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "React integration into Ember.js",
   "main": "index.js",
   "scripts": {
