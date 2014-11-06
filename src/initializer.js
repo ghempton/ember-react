@@ -5,7 +5,7 @@ export default {
   name: "ember-react",
   
   initialize: function(container, application) {
-    Ember.Handlebars.helper('react', ReactHelper);
+    Ember.Handlebars.registerHelper('react', ReactHelper);
     //container.register('helper:react', ReactHelper);
     //container.register('component:react', ReactComponent);
     

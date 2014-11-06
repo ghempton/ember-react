@@ -42,7 +42,13 @@ var ReactComponent = Ember.Component.extend({
     props.model = props.model || get(controller, 'model');
     
     var descriptor = React.withContext(context, function() {
-      return reactClass(this._props);
+      if(React.isValidClass(reactClass)) {
+        return reactClass(this._props);
+      } else if(React.isValidComponent(reactClass)) {
+        return reactClass;
+      } else {
+        throw new Ember.Error("Invalid react component or class");
+      }
     }.bind(this));
     
     this._reactComponent = React.renderComponent(descriptor, el);
