@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="left">
+    <header>
+      <h2><span class="ember">Ember</span>-<span class="react">React</span></h2>
+    </header>
+    <nav>
+      <ul>
+        <li>{{#link-to 'index'}}Getting Started{{/link-to}}</li>
+        <li>{{#link-to 'ember.react-components'}}React Components{{/link-to}}</li>
+        <li>{{#link-to 'profiles'}}Index Page w/ Ember{{/link-to}}</li>
+        <li>{{#link-to 'react.route' 'profiles'}}Index Page w/ React{{/link-to}}</li>
+        <li>{{#link-to 'react.route' 'routing'}}Routing{{/link-to}}</li>
+        <li><a href="https://github.com/ghempton/ember-react">Github</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="right">
+    {{outlet}}
+  </div>
+</div>

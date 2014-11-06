@@ -1,0 +1,40 @@
+<div class="profiles-index ember">
+  <header>
+    <h1>Profiles Rendered With Ember.js</h1>
+    
+    <div class="subheader">
+      <div class="selection">
+        {{selection.length}} Selected
+      </div>
+
+      <div class="pagination">
+        {{#if prevPage}}
+          {{#link-to 'profiles' (query-params page=prevPage)}}prev page{{/link-to}}
+        {{/if}}
+
+        {{#if nextPage}}
+          {{#link-to 'profiles' (query-params page=nextPage)}}next page{{/link-to}}
+        {{/if}}
+      </div>
+    </div>
+  </header>
+
+  <ul class="profiles">
+    {{#each}}
+      <li {{bind-attr class="isSelected:selected"}}>
+        {{input type="checkbox" checked=isSelected}}
+        {{gravatar-display email=email size="24"}}
+        <div class="name">{{name}}</div>
+        <div class="email">{{email}}</div>
+
+        <ul class="tags">
+          {{#each tags}}
+            <li>{{this.name}}</li>
+          {{/each}}
+        </ul>
+        
+        <time class="createdAt" datetime=createdAt>{{time-ago createdAt}}</time>
+      </li>
+    {{/each}}
+  </ul>
+</div>
