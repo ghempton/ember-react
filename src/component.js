@@ -11,16 +11,16 @@ var get = Ember.get;
 */
 var ReactComponent = Ember.Component.extend({
   
-  name: null,
+  _name: null,
   _props: null,
   _reactComponent: null,
   
   reactClass: Ember.computed(function() {
     var container = get(this, 'container'),
-        name = get(this, 'name');
+        name = get(this, '_name');
         
     return container.lookupFactory('react:' + name);
-  }).property('name'),
+  }).property('_name'),
   
   buildReactContext: function() {
     var container = get(this, 'container'),
