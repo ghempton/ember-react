@@ -14,6 +14,9 @@ export default React.createClass({
     queryParams: React.PropTypes.object
   },
   getRouterArgs: function() {
+    if(Ember.isEmpty(this.props.to))
+      return [];
+
     var args, context;
     args = [this.props.to];
     context = this.props.context || this.props.params;
@@ -32,9 +35,13 @@ export default React.createClass({
     return args;
   },
   getHref: function() {
+    var args = this.getRouterArgs();
+    if(Ember.isEmpty(args))
+      return null;
+
     var router;
     router = this.context.container.lookup('router:main');
-    return router.generate.apply(router, this.getRouterArgs());
+    return router.generate.apply(router, args);
   },
   handleClick: function(e) {
     var router;
