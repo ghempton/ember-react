@@ -11,7 +11,7 @@ export default React.createClass({
       React.PropTypes.string,
       React.PropTypes.object
     ]),
-    query: React.PropTypes.object
+    queryParams: React.PropTypes.object
   },
   getRouterArgs: function() {
     var args, context;
@@ -24,9 +24,9 @@ export default React.createClass({
         args.push(context);
       }
     }
-    if (this.props.query) {
+    if (this.props.queryParams) {
       args.push({
-        query: this.props.query
+        queryParams: this.props.queryParams
       });
     }
     return args;
