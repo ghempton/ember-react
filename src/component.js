@@ -43,15 +43,15 @@ var ReactComponent = Ember.Component.extend({
     
     var descriptor = React.withContext(context, function() {
       if(React.isValidClass(reactClass)) {
-        return reactClass(this._props);
-      } else if(React.isValidComponent(reactClass)) {
+        return React.createElement(reactClass, this._props);
+      } else if(React.isValidElement(reactClass)) {
         return reactClass;
       } else {
         throw new Ember.Error("Invalid react component or class");
       }
     }.bind(this));
     
-    this._reactComponent = React.renderComponent(descriptor, el);
+    this._reactComponent = React.render(descriptor, el);
   },
   
   didInsertElement: function() {
