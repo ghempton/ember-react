@@ -1,9 +1,7 @@
-/** @jsx React.DOM */
-
 import SyntaxHighlight from './syntax-highlight';
 
 export default React.createClass({
-  
+
   render: function() {
     return (
 <div className="content">
@@ -21,5 +19,5 @@ renderTemplate: function() &#123;
 </div>
     );
   }
-  
+
 });

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 import Ember from 'ember';
 
 import ProfilesIndex from '../react/profiles/index';
@@ -9,7 +7,7 @@ var Routes = ReactRouter.Routes,
     Route = ReactRouter.Route;
 
 export default Ember.Route.extend({
-  
+
   renderTemplate: function() {
     var rootPath = this.router.generate(this.routeName);
     this.render({
@@ -25,5 +23,5 @@ export default Ember.Route.extend({
       })
     });
   }
-  
+
 });

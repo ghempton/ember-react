@@ -1,7 +1,7 @@
 <div class="profiles-index ember">
   <header>
     <h1>Profiles Rendered With Ember.js</h1>
-    
+
     <div class="subheader">
       <div class="selection">
         {{selection.length}} Selected
@@ -20,20 +20,20 @@
   </header>
 
   <ul class="profiles">
-    {{#each}}
+    {{#each item in this}}
       <li {{bind-attr class="isSelected:selected"}}>
         {{input type="checkbox" checked=isSelected}}
-        {{gravatar-display email=email size="24"}}
-        <div class="name">{{name}}</div>
-        <div class="email">{{email}}</div>
+        {{gravatar-display email=item.model.email size="24"}}
+        <div class="name">{{item.model.name}}</div>
+        <div class="email">{{item.model.email}}</div>
 
         <ul class="tags">
-          {{#each tags}}
-            <li>{{this.name}}</li>
+          {{#each tagName in item.model.tags}}
+            <li>{{tagName.name}}</li>
           {{/each}}
         </ul>
-        
-        <time class="createdAt" datetime=createdAt>{{time-ago createdAt}}</time>
+
+        <time class="createdAt" datetime=createdAt>{{time-ago item.model.createdAt}}</time>
       </li>
     {{/each}}
   </ul>

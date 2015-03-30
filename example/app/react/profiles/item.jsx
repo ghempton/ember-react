@@ -1,22 +1,20 @@
-/** @jsx React.DOM */
-
 import GravatarDisplay from '../gravatar-display';
 import TimeAgo from '../time-ago';
 
 export default React.createClass({
-  
+
   getDefaultProps: function() {
     return {
       selected: false,
       onChange: function() {}
     };
   },
-  
+
   handleChange: function(evt) {
     var value = evt.target.checked;
     this.props.onChange(value);
   },
-  
+
   render: function() {
     var className = this.props.selected ? 'selected' : '';
     var model = this.props.model;
@@ -34,10 +32,10 @@ export default React.createClass({
             }, this)
           }
         </ul>
-        
+
         <TimeAgo date={model.createdAt} />
       </li>
     );
   }
-  
+
 });

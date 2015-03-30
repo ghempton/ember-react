@@ -30,7 +30,7 @@ var devAmd = (function() {
   //   srcFile: 'ember-react/index.js',
   //   destFile: '/ember-react.js'
   // });
-  tree = react(tree);
+  tree = react(tree, {transform: {es6module: true}});
   var transpiled = transpile(tree, {
     formatter: new AMDFormatter()
   });

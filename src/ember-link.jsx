@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 export default React.createClass({
   displayName: 'EmberLink',
@@ -52,6 +51,6 @@ export default React.createClass({
     }
   },
   render: function() {
-    return <a className={this.props.className} href={this.getHref()} onClick={this.handleClick}>{this.props.children}</a> 
+    return <a className={this.props.className} href={this.getHref()} onClick={this.handleClick}>{this.props.children}</a>
   }
 });
