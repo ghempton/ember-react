@@ -24,7 +24,7 @@ h1, h2, h3, h4, h5
 
 .container
   display flex
-  
+
 .left
   background #333
   color #fff
@@ -33,118 +33,118 @@ h1, h2, h3, h4, h5
   top 0
   left 0
   bottom 0
-  
+
   header
     padding 12px 20px
     border-bottom 1px solid #222
-    
+
     .ember
       color EMBER_ORANGE
-      
+
     .react
       color REACT_BLUE
-    
+
   nav
     padding 12px 0
     nested-reset()
     border-top 1px solid #3f3f3f
-    
+
     li
       list-style none
-      
+
     a
       display block
       padding 12px 20px
       color inherit
       text-decoration none
-      
+
       &:hover
         background #444
-        
+
       &.active
         background #222
         box-shadow: 0px 1px 3px #111 inset
-  
+
   h2
     font-weight bold
     font-size 24px
     text-align center
-    
+
 .right
   margin-left SIDEBAR_WIDTH
   flex 100%
-  
+
 .content
   margin 40px 20px
-  
+
 .profiles-index
 
   header
     h1
       margin 16px 20px
       font-size 20px
-    
+
     .subheader
       display flex
       padding 12px 20px
       border-top 1px solid #efefef
-      
+
       .selection
         flex 50%
-        
+
       .pagination
         flex 50%
         text-align right
-      
-    
+
+
     border-bottom 1px solid #efefef
-    
+
   .profiles
     reset-box-model()
-      
+
     > li
       padding 14px 20px
       list-style none
       display flex
       align-items center
       border-bottom 1px solid #efefef
-      
+
       &:hover
         background #f8f8f8
-      
+
       &.selected
         background #ffffcc
-      
+
       > *
         flex-grow 0
         flex-shrink 0
-      
+
       time
         text-align right
         font-size 13px
         color #999
-        
+
       input
         margin-right 12px
-        
+
       .name
         margin-left 12px
         margin-right 12px
-        
+
       .email
         &:before
           content:"("
         &:after
           content:")"
         color #999
-        
-      
+
+
       ul.tags
         flex 100%
         reset-box-model()
         margin-left 20px
         display flex
-        
+
         li
           list-style none
           display block
@@ -152,5 +152,3 @@ h1, h2, h3, h4, h5
           padding 4px 8px
           font-size 12px
           margin-right 4px
-  
-    

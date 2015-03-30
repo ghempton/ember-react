@@ -18,7 +18,7 @@ var app = new EmberApp({
   wrapInEval: false,
   trees: {
     vendor: emberReactTree,
-    app: react('app')
+    app: react('app', {transform: {es6module: true}})
   }
 });
 
@@ -46,8 +46,8 @@ app.import({
   development: 'bower_components/react/react-with-addons.js'
 });
 app.import({
-  production: 'vendor/react-router/dist/react-router.min.js',
-  development: 'vendor/react-router/dist/react-router.js'
+  production: 'bower_components/react-router/build/global/ReactRouter.min.js',
+  development: 'bower_components/react-router/build/global/ReactRouter.js'
 });
 app.import('vendor/ember-react/ember-react.global.js');
 app.import('bower_components/Faker/build/build/faker.js');

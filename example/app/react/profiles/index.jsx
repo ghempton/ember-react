@@ -1,4 +1,4 @@
-/** @jsx React.DOM */
+
 
 import Item from './item';
 import Profile from '../../models/profile';
@@ -6,30 +6,30 @@ import Profile from '../../models/profile';
 var Link = ReactRouter.Link;
 
 export default React.createClass({
-  
+
   getInitialState: function() {
     return {
       selection: [],
       profiles: []
     };
   },
-  
+
   getPage: function() {
     return parseInt(this.props.query.page || 1);
   },
-  
+
   componentWillMount: function() {
     this.setState({
       profiles: Profile.load(this.getPage())
     });
   },
-  
+
   componentWillReceiveProps: function(props) {
     this.setState({
       profiles: Profile.load(parseInt(props.query.page))
     });
   },
-  
+
   renderPrev: function() {
     var page = this.getPage();
     var prevPage = page - 1;
@@ -37,13 +37,13 @@ export default React.createClass({
       return <Link to="profiles" query={{page: prevPage}}>prev page</Link>;
     }
   },
-  
+
   renderNext: function() {
     var page = this.getPage();
     var nextPage = page + 1;
     return <Link to="profiles" query={{page: nextPage}}>next page</Link>;
   },
-  
+
   handleSelect: function(profile, value) {
     var selection = this.state.selection;
     if(value) {
@@ -53,14 +53,14 @@ export default React.createClass({
     }
     this.forceUpdate();
   },
-  
+
   render: function() {
     var selection = this.state.selection;
     return (
       <div className="profiles-index react">
         <header>
-          <h1>Profiles Rendered With React</h1>
-          
+          <h1>Profiles Rendered With React {React.version}</h1>
+
           <div className="subheader">
             <div className="selection">
               {selection.length} Selected
@@ -84,5 +84,5 @@ export default React.createClass({
       </div>
     );
   }
-  
+
 });
