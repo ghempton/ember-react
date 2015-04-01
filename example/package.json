@@ -31,6 +31,8 @@
     "ember-cli-stylus": "^1.0.4",
     "ember-cli-uglify": "1.0.1",
     "ember-data": "1.0.0-beta.16",
-    "ember-export-application-global": "^1.0.2"
+    "ember-export-application-global": "^1.0.2",
+    "grunt": "^0.4.5",
+    "grunt-gh-pages": "^0.9.1"
   }
 }
