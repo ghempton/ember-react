@@ -1,7 +1,7 @@
 import Ember from "ember";
 
-export default Ember.ArrayController.extend({
-  itemController: 'profiles.item',
+export default Ember.Controller.extend({
+  profiles: Ember.computed.alias('model'),
   queryParams: ['page'],
 
   nextPage: function() {
@@ -18,5 +18,5 @@ export default Ember.ArrayController.extend({
     return Ember.VERSION;
   }.property(),
 
-  selection: Ember.computed.filterBy('', 'isSelected')
+  selection: Ember.computed.filterBy('profiles', 'isSelected')
 });
