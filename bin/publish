@@ -27,12 +27,12 @@ echo "Releasing version ${VERSION}"
 git add --all .
 git commit -m "Version ${VERSION}: https://github.com/ghempton/ember-react/commits/${REV}"
 
-git push origin master
+git push -u origin master
 
 if [[ $VERSION =~ "+" ]]; then
   echo "Skipping github release for $VERSION"
 else
   echo "Creating github release for $VERSION"
   git tag -a $VERSION -m "Publish $VERSION"
-  git push origin $VERSION
+  git push -u origin $VERSION
 fi
