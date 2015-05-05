@@ -1341,7 +1341,7 @@ define('example/templates/profiles/index', ['exports'], function (exports) {
           ["content","item.name"],
           ["content","item.email"],
           ["block","each",[["get","item.tags"]],[],0,null],
-          ["inline","time-ago",[["get","item.model.createdAt"]],[]]
+          ["inline","time-ago",[["get","item.createdAt"]],[]]
         ],
         locals: ["item"],
         templates: [child0]
@@ -1764,7 +1764,7 @@ catch(err) {
 if (runningTests) {
   require("example/tests/test-helper");
 } else {
-  require("example/app")["default"].create({"LOG_ACTIVE_GENERATION":true,"LOG_VIEW_LOOKUPS":true,"name":"example","version":"0.0.0.58df906c"});
+  require("example/app")["default"].create({"LOG_ACTIVE_GENERATION":true,"LOG_VIEW_LOOKUPS":true,"name":"example","version":"0.0.0.2bd67145"});
 }
 
 /* jshint ignore:end */
