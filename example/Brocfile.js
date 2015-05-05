@@ -46,8 +46,8 @@ app.import({
   development: 'bower_components/react/react-with-addons.js'
 });
 app.import({
-  production: 'bower_components/react-router/build/global/ReactRouter.min.js',
-  development: 'bower_components/react-router/build/global/ReactRouter.js'
+  production: 'bower_components/react-router/build/umd/ReactRouter.min.js',
+  development: 'bower_components/react-router/build/umd/ReactRouter.js'
 });
 app.import('vendor/ember-react/ember-react.global.js');
 app.import('bower_components/Faker/build/build/faker.js');

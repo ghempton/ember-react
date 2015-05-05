@@ -33,7 +33,9 @@ var Root = React.createClass({
 
   render: function() {
     return (
+      /* jshint ignore:start */
       <ReactRouter.RouteHandler {...this.props} />
+      /* jshint ignore:end */
     );
   }
 
@@ -42,10 +44,12 @@ var Root = React.createClass({
 var Route = ReactRouter.Route;
 
 var routes = (
+  /* jshint ignore:start */
   <Route handler={Root} path="/ember-react/">
     <Route name="profiles" path="react/profiles" handler={ProfilesIndex} />
     <Route name="routing" path="react/routing" handler={Routing} />
   </Route>
+  /* jshint ignore:end */
 );
 
 var lastMatch, outletElement;
@@ -55,7 +59,9 @@ window.didInsertReactOutlet = function(element) {
   ReactRouter.run(routes, ReactRouter.HistoryLocation, function(Handler, state) {
     lastMatch = { Handler, state };
     var element = document.getElementById('react-outlet');
+    /* jshint ignore:start */
     React.render(<Handler query={state.query} />, element);
+    /* jshint ignore:end */
   });
 }
 

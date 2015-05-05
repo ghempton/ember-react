@@ -20,15 +20,16 @@
   </header>
 
   <ul class="profiles">
-    {{#each item in this}}
-      <li {{bind-attr class="isSelected:selected"}}>
-        {{input type="checkbox" checked=isSelected}}
-        {{gravatar-display email=item.model.email size="24"}}
-        <div class="name">{{item.model.name}}</div>
-        <div class="email">{{item.model.email}}</div>
+
+    {{#each profiles as |item|}}
+      <li class="{{if item.isSelected 'selected'}}">
+        {{input type="checkbox" checked=item.isSelected}}
+        {{gravatar-display email=item.email size="24"}}
+        <div class="name">{{item.name}}</div>
+        <div class="email">{{item.email}}</div>
 
         <ul class="tags">
-          {{#each tagName in item.model.tags}}
+          {{#each item.tags as |tagName|}}
             <li>{{tagName.name}}</li>
           {{/each}}
         </ul>
