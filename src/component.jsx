@@ -21,7 +21,7 @@ var ReactComponent = Ember.Component.extend({
   helperName: null,
   _morph: null,
   renderer: null,
-
+  
   reactClass: Ember.computed(function() {
     var container = get(this, 'container'),
         name = get(this, 'componentName');
@@ -48,13 +48,10 @@ var ReactComponent = Ember.Component.extend({
     var props = this._props || {};
     props.model = props.model || get(controller, 'model');
 
-    var descriptor = React.withContext(context, function() {
-      if(React.isValidElement(reactClass)) {
-        return reactClass;
-      } else {
-        return React.createElement(reactClass, this._props);
-      }
-    }.bind(this));
+    var descriptor = React.createElement(
+      ContextWrapper(context, reactClass),
+      this._props
+    );
 
     this._reactComponent = React.render(descriptor, el);
   },
@@ -87,5 +84,29 @@ var ReactComponent = Ember.Component.extend({
   }
 
 });
+
+function ContextWrapper(context, Component) {
+  
+  var contextTypes = {};
+  for(var key in context) {
+    if(!context.hasOwnProperty(key)) continue;
+    contextTypes[key] = React.PropTypes.any;
+  }
+  
+  return React.createClass({
+    
+    childContextTypes: contextTypes,
+    
+    getChildContext: function() {
+      return context;
+    },
+    
+    render: function() {
+      return <Component {...this.props} />;
+    }
+    
+  });
+    
+}
 
 export default ReactComponent;
