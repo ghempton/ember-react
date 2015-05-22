@@ -70,16 +70,31 @@ var ReactComponent = Ember.Component.extend({
   },
 
   setUnknownProperty: function(key, value) {
-    var reactComponent = this._reactComponent;
     if(!this._props) {
       this._props = {};
     }
-    this._props[key] = value;
-    if(reactComponent) {
-      var props = {};
-      props[key] = value;
-      reactComponent.setProps(props);
+
+    var that = this;
+    var set = function(key, value) {
+      var reactComponent = that._reactComponent;
+      that._props[key] = value;
+      if(reactComponent) {
+        var props = {};
+        props[key] = value;
+        reactComponent.setProps(props);
+      }
+    };
+
+    if (key.match(/Binding$/)) {
+      var realKey = key.slice(0, -7);
+      value.subscribe(function() {
+        set(realKey, value.value());
+      });
+      set(realKey, value.value());
+    } else {
+      set(key, value);
     }
+
     return value;
   }
 
