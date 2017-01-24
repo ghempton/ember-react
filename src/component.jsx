@@ -1,3 +1,5 @@
+var React = require("react");
+var ReactDOM = require("react-dom");
 var get = Ember.get;
 
 /**
@@ -21,7 +23,7 @@ var ReactComponent = Ember.Component.extend({
   helperName: null,
   _morph: null,
   renderer: null,
-  
+
   reactClass: Ember.computed(function() {
     var container = get(this, 'container'),
         name = get(this, 'componentName');
@@ -48,21 +50,22 @@ var ReactComponent = Ember.Component.extend({
     var props = this._props || {};
     props.model = props.model || get(controller, 'model');
 
-    var descriptor = React.createElement(
-      ContextWrapper(context, reactClass),
-      this._props
-    );
+    if (reactClass) {
+      var descriptor = React.createElement(
+        ContextWrapper(context, reactClass),
+        this._props
+      );
 
-    this._reactComponent = React.render(descriptor, el);
+      this._reactComponent = ReactDOM.render(descriptor, el);
+    }
   },
-
   didInsertElement: function() {
     this.renderReact();
   },
 
   willDestroyElement: function() {
     var el = get(this, 'element');
-    React.unmountComponentAtNode(el);
+    ReactDOM.unmountComponentAtNode(el);
   },
 
   unknownProperty: function(key) {
@@ -76,9 +79,7 @@ var ReactComponent = Ember.Component.extend({
     }
     this._props[key] = value;
     if(reactComponent) {
-      var props = {};
-      props[key] = value;
-      reactComponent.setProps(props);
+      reactComponent.updateProps(this._props)
     }
     return value;
   }
@@ -86,27 +87,35 @@ var ReactComponent = Ember.Component.extend({
 });
 
 function ContextWrapper(context, Component) {
-  
+
   var contextTypes = {};
   for(var key in context) {
     if(!context.hasOwnProperty(key)) continue;
     contextTypes[key] = React.PropTypes.any;
   }
-  
+
   return React.createClass({
-    
+
     childContextTypes: contextTypes,
-    
+
+    getInitialState(){
+      return {childProps: this.props};
+    },
+
     getChildContext: function() {
       return context;
     },
-    
+
+    updateProps: function(newProps) {
+      this.setState({childProps: newProps})
+    },
+
     render: function() {
-      return <Component {...this.props} />;
+      return <Component {...this.state.childProps} />;
     }
-    
+
   });
-    
+
 }
 
-export default ReactComponent;
+module.exports = ReactComponent;
